@@ -1,4 +1,6 @@
+#include "NeuralAmpModelerCore/NAM/activations.h"
 #include "MainComponent.h"
+#include "architecture.h"
 
 //==============================================================================
 MainComponent::MainComponent()
@@ -19,6 +21,16 @@ MainComponent::MainComponent()
         // Specify the number of input and output channels that we want to open
         setAudioChannels (2, 2);
     }
+    
+    juce:: String path = juce::File::getSpecialLocation(juce::File::userHomeDirectory).getFullPathName() +"/Development/NAM Models/test_model/test_model.nam";
+    
+    auto dspPath = std::filesystem::u8path(path.toStdString());
+    model = get_dsp(dspPath);
+    
+    if(!model)
+        DBG("No model!");
+    else
+        DBG(model->GetExpectedSampleRate());
     
 }
 
