@@ -4,7 +4,17 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
               cppLanguageStandard="17">
   <MAINGROUP id="WGJH50" name="NAM Rig">
+    <GROUP id="{A17FBFFF-D405-814D-3AE7-0F32A9513808}" name="NeuralAmpModelerCore">
+      <FILE id="piRcdO" name="activations.cpp" compile="1" resource="0" file="NeuralAmpModelerCore/NAM/activations.cpp"/>
+      <FILE id="z7TdJz" name="convnet.cpp" compile="1" resource="0" file="NeuralAmpModelerCore/NAM/convnet.cpp"/>
+      <FILE id="lvh9a0" name="dsp.cpp" compile="1" resource="0" file="NeuralAmpModelerCore/NAM/dsp.cpp"/>
+      <FILE id="sdwrsT" name="get_dsp.cpp" compile="1" resource="0" file="NeuralAmpModelerCore/NAM/get_dsp.cpp"/>
+      <FILE id="aSwJWc" name="lstm.cpp" compile="1" resource="0" file="NeuralAmpModelerCore/NAM/lstm.cpp"/>
+      <FILE id="UMGRub" name="util.cpp" compile="1" resource="0" file="NeuralAmpModelerCore/NAM/util.cpp"/>
+      <FILE id="iRN0xf" name="wavenet.cpp" compile="1" resource="0" file="NeuralAmpModelerCore/NAM/wavenet.cpp"/>
+    </GROUP>
     <GROUP id="{7223F66A-D8EE-4B3C-7590-745A61E988C9}" name="Source">
+      <FILE id="QPOme5" name="architecture.h" compile="0" resource="0" file="Source/architecture.h"/>
       <FILE id="cBSiy0" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="LCFBwz" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="EeKVqA" name="MainComponent.cpp" compile="1" resource="0"
@@ -13,7 +23,7 @@
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX">
+    <XCODE_MAC targetFolder="Builds/MacOSX" microphonePermissionNeeded="1">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="NAM Rig" macOSDeploymentTarget="10.15"
                        osxCompatibility="10.15 SDK" headerPath="../../&#10;../../NeuralAmpModelerCore/Dependencies/nlohmann&#10;../../eigen/"/>
