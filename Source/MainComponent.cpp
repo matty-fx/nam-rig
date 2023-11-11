@@ -45,6 +45,8 @@ MainComponent::~MainComponent()
 {
     // This shuts down the audio device and clears the audio source.
     shutdownAudio();
+    delete plugin->getActiveEditor();
+    plugin = nullptr;
 }
 
 //==============================================================================
@@ -69,6 +71,23 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
     
     inBuffer = new double[samplesPerBlockExpected];
     outBuffer = new double[samplesPerBlockExpected];
+    
+    juce::AudioPluginFormatManager pluginManager;
+    pluginManager.addDefaultFormats();
+    
+    for (int i=0; i<pluginManager.getFormats().size(); i++)
+    {
+        DBG(pluginManager.getFormat(i)->getName());
+    }
+    
+    juce::KnownPluginList knownPluginList;
+    juce::OwnedArray<juce::PluginDescription> pluginDescriptions;
+    juce::VST3PluginFormat vst3PluginFormat;
+    juce::String errorMessage("Failed to load effect");
+    knownPluginList.scanAndAddFile(juce::String("/Library/Audio/Plug-Ins/VST3/ValhallaVintageVerb.vst3"), true, pluginDescriptions, vst3PluginFormat);
+    
+    plugin = pluginManager.createPluginInstance(*pluginDescriptions.getLast(), sampleRate, samplesPerBlockExpected, errorMessage);
+    plugin->prepareToPlay(sampleRate, samplesPerBlockExpected);
 }
 
 void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
@@ -88,12 +107,16 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
     
     model->process(inBuffer, outBuffer, buffer.getNumSamples());
     model->finalize_(buffer.getNumSamples());
-
+    
     for (int i = 0 ; i < buffer.getNumSamples(); i++)
     {
         buffer.setSample(0, i, (float) outBuffer[i]);
         buffer.setSample(1, i, (float) outBuffer[i]);
     }
+    
+    plugin->processBlock(buffer, midiMessages);
+
+    
 }
 
 void MainComponent::releaseResources()

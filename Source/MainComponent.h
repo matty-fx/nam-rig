@@ -38,5 +38,8 @@ private:
     double * inBuffer;
     double * outBuffer;
     
+    std::unique_ptr<juce::AudioPluginInstance> plugin;
+    juce::MidiBuffer midiMessages;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
